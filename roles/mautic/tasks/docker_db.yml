@@ -1,0 +1,34 @@
+---
+- name: Mautic | Pull database container image
+  community.docker.docker_image:
+    name: "{{ mautic_dbms_image }}"
+    source: pull
+    force_source: "{{ mautic_force_container_pull }}"
+  register: image_output
+
+- name: Mautic | Start database container
+  community.docker.docker_container:
+    name: "{{ mautic_dbms_service_name }}"
+    image: "{{ mautic_dbms_image }}"
+    state: started
+    detach: true
+    network_mode: "{{ mautic_network_backend }}"
+    networks: "{{ mautic_dbms_networks }}"
+    env: "{{ mautic_dbms_env }}"
+    mounts: "{{ mautic_dbms_mounts }}"
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    container_default_behavior: compatibility
+    restart_policy: unless-stopped
+    healthcheck:
+      test: >
+        mysqladmin ping -h 127.0.0.1 -u $MYSQL_USER --password=$MYSQL_PASSWORD
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 15s
+  register: mautic_db_status
+  ignore_errors: '{{ ansible_check_mode }}'
+  no_log: "{{ mautic_setup_force_log == false }}"
+  diff: "{{ mautic_setup_force_log }}"

@@ -1,0 +1,13 @@
+---
+- name: Mautic | Create Docker network for backend
+  community.docker.docker_network:
+    name: "{{ mautic_network_backend }}"
+    driver: bridge
+    state: present
+
+- name: Mautic | Create Docker network for frontend
+  community.docker.docker_network:
+    name: "{{ mautic_network_frontend }}"
+    driver: bridge
+    state: present
+  when: mautic_network_frontend

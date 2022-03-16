@@ -1,0 +1,100 @@
+---
+- name: Mautic | Check Prerequisites
+  import_tasks: prepare_host.yml
+  tags:
+    - mautic-setup-all
+    - mautic-prepare-host
+
+- name: Mautic | Configure Docker network
+  import_tasks: docker_network.yml
+  tags:
+    - mautic-setup-all
+    - mautic-network
+    - mautic-start-db
+
+- name: Mautic | Create volumes
+  import_tasks: docker_volumes.yml
+  tags:
+    - mautic-setup-all
+    - mautic-start-db
+
+- name: Mautic | Create database service
+  import_tasks: docker_db.yml
+  tags:
+    - mautic-setup-all
+    - mautic-start-db
+
+- name: Mautic | Create application service
+  import_tasks: docker_mautic.yml
+  tags:
+    - mautic-setup-all
+    - mautic-start-service
+
+# ToDo: should wait for application service to be ready
+- name: Mautic | Create httpd service
+  import_tasks: docker_httpd.yml
+  tags:
+    - mautic-setup-all
+    - mautic-start-service
+
+# ToDo: should wait for application service to be ready
+- name: Mautic | Create cron service
+  import_tasks: docker_cron.yml
+  tags:
+    - mautic-setup-all
+    - mautic-start-service
+
+
+- name: Mautic | Update database service
+  import_tasks: docker_db.yml
+  vars:
+    mautic_force_container_pull: true
+  tags:
+    - never
+    - mautic-update
+
+- name: Mautic | Update application service
+  import_tasks: docker_mautic.yml
+  vars:
+    mautic_force_container_pull: true
+  tags:
+    - never
+    - mautic-update
+
+- name: Mautic | Update httpd service
+  import_tasks: docker_httpd.yml
+  vars:
+    mautic_force_container_pull: true
+  tags:
+    - never
+    - mautic-update
+
+- name: Mautic | Update cron service
+  import_tasks: docker_cron.yml
+  vars:
+    mautic_force_container_pull: true
+  tags:
+    - never
+    - mautic-update
+
+# ToDo: use modules to better control diff/output
+- name: Mautic | Update
+  import_tasks: update.yml
+  vars:
+    mautic_force_container_pull: true
+  tags:
+    - never
+    - mautic-update
+
+- name: Mautic | Remove services
+  import_tasks: uninstall.yml
+  tags:
+    - never
+    - mautic-uninstall
+    - mautic-prune
+
+- name: Mautic | Prune all volumes
+  import_tasks: prune.yml
+  tags:
+    - never
+    - mautic-prune

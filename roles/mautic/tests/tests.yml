@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  remote_user: root
+  vars:
+    mautic_httpd_ports:
+      - "80:80"
+    mautic_skip_docker: true
+    mautic_setup_force_log: true
+  roles:
+    # - roles/external/docker
+    - ../../ansible-role-mautic

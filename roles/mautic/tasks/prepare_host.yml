@@ -1,0 +1,19 @@
+---
+- name: Mautic | Ensure Docker service exists and is started
+  service:
+    name: docker
+    state: started
+  register: docker_status
+  ignore_errors: true
+  when: >
+    mautic_skip_docker is not defined or
+    mautic_skip_docker is false
+
+- name: Mautic | Inform user to use docker playbook for host
+  fail:
+    msg: Running Docker daemon is required on target host.
+  when: >
+    (mautic_skip_docker is not defined or
+    mautic_skip_docker is false) and
+    (docker_status.failed | bool or
+    docker_status.state != "started")

@@ -1,0 +1,12 @@
+---
+- name: Mautic | Drop Mautic application volume
+  community.docker.docker_volume:
+    volume_name: "{{ mautic_app_volume_name }}"
+    state: absent
+  register: mautic_data_output
+
+- name: Mautic | Drop database volume
+  community.docker.docker_volume:
+    volume_name: "{{ mautic_dbms_volume_name }}"
+    state: absent
+  register: mautic_data_output

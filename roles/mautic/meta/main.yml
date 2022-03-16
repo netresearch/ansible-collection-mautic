@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: mautic
+  author: Björn Marten <bjoern.marten@netresearch.de>
+  description: This Ansible role provisions a Mautic instance via Docker
+  company: Netresearch DTT GmbH
+  license: AGPL-3
+  min_ansible_version: '2.12'
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+  galaxy_tags:
+    - mautic
+    - docker
+dependencies: []

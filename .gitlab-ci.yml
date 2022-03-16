@@ -1,0 +1,20 @@
+---
+image:
+  name: registry.netresearch.de/netresearch-administration/buildbox
+
+before_script:
+  - export LANG=C.UTF-8
+  - rm -rf .kitchen
+  - ansible-galaxy collection install community.general
+  - ansible --version
+  - ansible-lint --version
+  - yamllint --version
+
+stages:
+  - validate
+
+validate:
+  stage: validate
+  script:
+    - ansible-lint . -v
+    - yamllint .

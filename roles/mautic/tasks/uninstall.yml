@@ -1,0 +1,25 @@
+---
+- name: Mautic | Remove httpd container
+  community.docker.docker_container:
+    name: "{{ mautic_httpd_service_name }}"
+    state: absent
+
+- name: Mautic | Remove cron container
+  community.docker.docker_container:
+    name: "{{ mautic_cron_service_name }}"
+    state: absent
+
+- name: Mautic | Remove application container
+  community.docker.docker_container:
+    name: "{{ mautic_app_service_name }}"
+    state: absent
+
+- name: Mautic | Remove database container
+  community.docker.docker_container:
+    name: "{{ mautic_dbms_service_name }}"
+    state: absent
+
+- name: Mautic | Remove backend network
+  community.docker.docker_network:
+    name: "{{ mautic_network_backend }}"
+    state: absent

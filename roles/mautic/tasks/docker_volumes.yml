@@ -1,0 +1,16 @@
+---
+- name: Mautic | Create Mautic application volume
+  community.docker.docker_volume:
+    volume_name: "{{ mautic_app_volume_name }}"
+    driver: local
+    recreate: never
+    state: present
+  register: mautic_data_output
+
+- name: Mautic | Create database volume
+  community.docker.docker_volume:
+    volume_name: "{{ mautic_dbms_volume_name }}"
+    driver: local
+    recreate: never
+    state: present
+  register: mautic_data_output

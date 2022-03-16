@@ -1,0 +1,26 @@
+---
+namespace: netresearch
+name: mautic
+version: 1.0.0
+readme: README.md
+authors:
+  - Björn Marten <bjoern.marten@netresearch.de>
+  - Sebastian Mendel <sebastian.mendel@netresearch.de> (https://github.com/CybotTM)
+description: This Ansible collection provisions a Mautic stack via Docker
+license:
+  - AGPL-3.0-or-later
+license_file: ''
+tags:
+  - mautic
+  - docker
+dependencies:
+  community.docker: '>=2.2'
+repository: https://github.com/netresearch/ansible-collection-mautic
+documentation: https://github.com/netresearch/ansible-collection-mautic
+homepage: https://github.com/netresearch/ansible-collection-mautic
+issues: https://github.com/netresearch/ansible-collection-mautic/issues
+build_ignore:
+  - .gitignore
+  - .editorconfig
+  - .gitlab-ci.yml
+  - .yamllint

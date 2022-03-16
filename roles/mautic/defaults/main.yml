@@ -1,0 +1,192 @@
+---
+# General variables
+force_service_update: false
+
+# Set this to true to enable logging even of possible sensitive information
+mautic_setup_force_log: false
+
+# Set this to true to force container pull on every mautic_setup_all run
+# Hint: mautic_update already enforces container pull on every run
+mautic_force_container_pull: false
+
+# Mautic application settings
+mautic_install_source: "docker"
+mautic_trusted_proxies: '["127.0.0.1"]'
+mautic_site_url: "m.netresearch.de"
+# Database settings
+mautic_db_driver: "pdo_mysql"
+mautic_db_table_prefix: ""
+mautic_db_name: "mautic"
+mautic_db_user: "mautic"
+mautic_db_user_secret: my_secret
+mautic_db_root_secret: my_secret
+
+# Docker networks
+mautic_network_backend: "mautic-net"
+# ToDo: traefik network should be defined elsewhere
+mautic_network_frontend: "traefik_dev_network"
+
+# Mautic service container
+mautic_app_image_name: "ghcr.io/netresearch/mautic"
+mautic_app_image_tag: "4.1-php7.4"
+mautic_app_storage_container: "/var/www/html"
+mautic_app_env:
+  MAUTIC_DB_HOST: "{{ mautic_dbms_service_name }}"
+  MAUTIC_DB_USER: "{{ mautic_db_user }}"
+  MAUTIC_DB_PASSWORD: "{{ mautic_db_user_secret }}"
+  MAUTIC_DB_NAME: "{{ mautic_db_name }}"
+  MAUTIC_INSTALL_SOURCE: "{{ mautic_install_source }}"
+  MAUTIC_DB_DRIVER: "{{ mautic_db_driver }}"
+  MAUTIC_DB_TABLE_PREFIX: "{{ mautic_db_table_prefix }}"
+  MAUTIC_TRUSTED_PROXIES: "{{ mautic_trusted_proxies | string }}"
+  MAUTIC_SITE_URL: "{{ mautic_site_url }}"
+
+# HTTPD service
+mautic_httpd_image_name: "{{ mautic_app_image_name }}"
+mautic_httpd_image_tag: "{{ mautic_app_image_tag }}"
+mautic_httpd_ports:
+mautic_httpd_labels:
+
+# DBMS service container
+mautic_dbms_image_name: "mariadb"
+mautic_dbms_image_tag: "10"
+mautic_dbms_storage_container: "/var/lib/mysql"
+mautic_dbms_env:
+  MARIADB_DATABASE: "{{ mautic_db_name }}"
+  MARIADB_USER: "{{ mautic_db_user }}"
+  MARIADB_ROOT_PASSWORD: "{{ mautic_db_root_secret }}"
+  MARIADB_PASSWORD: "{{ mautic_db_user_secret }}"
+
+# Cron service container
+mautic_cron_image_name: "mcuadros/ofelia"
+mautic_cron_image_tag: "latest"
+mautic_cron_service_command: "daemon --docker"
+
+mautic_console: "php {{ mautic_app_storage_container }}/bin/console"
+
+mautic_app_labels:
+  ofelia.enabled: "true"
+  ofelia.job-exec.segments_update.schedule: "8,23,38,52 * * * *"
+  ofelia.job-exec.segments_update.command:
+    "{{ mautic_console }} mautic:segments:update"
+  ofelia.job-exec.segments_update.user: "www-data"
+  ofelia.job-exec.import.schedule: "*/5 * * * *"
+  ofelia.job-exec.import.command:
+    "{{ mautic_console }} mautic:import"
+  ofelia.job-exec.import.user: "www-data"
+  ofelia.job-exec.campaigns_update.schedule: "5,20,35,50 * * * *"
+  ofelia.job-exec.campaigns_update.command:
+    "{{ mautic_console }} mautic:campaigns:update"
+  ofelia.job-exec.campaigns_update.user: "www-data"
+  ofelia.job-exec.campaigns_trigger.schedule: "2,17,32,47 * * * *"
+  ofelia.job-exec.campaigns_trigger.command:
+    "{{ mautic_console }} mautic:campaigns:trigger"
+  ofelia.job-exec.campaigns_trigger.user: "www-data"
+  ofelia.job-exec.messages_send.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.messages_send.command:
+    "{{ mautic_console }} mautic:messages:send"
+  ofelia.job-exec.messages_send.user: "www-data"
+  ofelia.job-exec.emails_send.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.emails_send.command:
+    "{{ mautic_console }} mautic:emails:send"
+  ofelia.job-exec.emails_send.user: "www-data"
+  ofelia.job-exec.email_fetch.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.email_fetch.command:
+    "{{ mautic_console }} mautic:email:fetch"
+  ofelia.job-exec.email_fetch.user: "www-data"
+  ofelia.job-exec.social_monitoring.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.social_monitoring.command:
+    "{{ mautic_console }} mautic:social:monitoring"
+  ofelia.job-exec.social_monitoring.user: "www-data"
+  ofelia.job-exec.webhooks_process.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.webhooks_process.command:
+    "{{ mautic_console }} mautic:webhooks:process"
+  ofelia.job-exec.webhooks_process.user: "www-data"
+  ofelia.job-exec.broadcasts_send.schedule: "0,15,30,45 * * * *"
+  ofelia.job-exec.broadcasts_send.command:
+    "{{ mautic_console }} mautic:broadcasts:send"
+  ofelia.job-exec.broadcasts_send.user: "www-data"
+  ofelia.job-exec.maintenance_cleanup.schedule: "* 1 * * *"
+  ofelia.job-exec.maintenance_cleanup.command:
+    "{{ mautic_console }} mautic:maintenance:cleanup --days-old=365"
+  ofelia.job-exec.maintenance_cleanup.user: "www-data"
+  ofelia.job-exec.iplookup_download.schedule: "0 4 15 * *"
+  ofelia.job-exec.iplookup_download.command:
+    "{{ mautic_console }} mautic:iplookup:download"
+  ofelia.job-exec.iplookup_download.user: "www-data"
+  ofelia.job-exec.reports_scheduler.schedule: "*/5 * * * *"
+  ofelia.job-exec.reports_scheduler.command:
+    "{{ mautic_console }} mautic:reports:scheduler"
+  ofelia.job-exec.reports_scheduler.user: "www-data"
+  ofelia.job-exec.unusedip_delete.schedule: "0 5 10 * *"
+  ofelia.job-exec.unusedip_delete.command:
+    "{{ mautic_console }} mautic:unusedip:delete"
+  ofelia.job-exec.unusedip_delete.user: "www-data"
+  # ENABLES HUBSPOT CRON
+  # ofelia.job-exec.hubspot_integration_fetchleads.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.hubspot_integration_fetchleads.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:fetchleads --integration=Hubspot
+  # ofelia.job-exec.hubspot_integration_fetchleads.user: "www-data"
+  # ofelia.job-exec.hubspot_integration_pushactivity.schedule:
+  #   "15,45 * * * *"
+  # ofelia.job-exec.hubspot_integration_pushactivity.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:pushactivity --integration=Hubspot"
+  # ofelia.job-exec.hubspot_integration_pushactivity.user: "www-data"
+  # ENABLES SALESFORCE CRON
+  # ofelia.job-exec.salesforce_integration_fetchleads.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.salesforce_integration_fetchleads.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:fetchleads --integration=Salesforce"
+  # ofelia.job-exec.salesforce_integration_fetchleads.user: "www-data"
+  # ofelia.job-exec.salesforce_integration_pushactivity.schedule:
+  #   "12,42 * * * *"
+  # ofelia.job-exec.salesforce_integration_pushactivity.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:pushactivity --integration=Salesforce"
+  # ofelia.job-exec.salesforce_integration_pushactivity.user: "www-data"
+  # ofelia.job-exec.salesforce_integration_pushleadactivity.schedule:
+  #   "14,44 * * * *"
+  # ofelia.job-exec.salesforce_integration_pushleadactivity.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:pushleadactivity --integration=Salesforce"
+  # ofelia.job-exec.salesforce_integration_pushleadactivity.user: "www-data"
+  # ofelia.job-exec.salesforce_integration_synccontacts.schedule:
+  #   "16,46 * * * *"
+  # ofelia.job-exec.salesforce_integration_synccontacts.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:synccontacts --integration=Salesforce"
+  # ofelia.job-exec.salesforce_integration_synccontacts.user: "www-data"
+  # ENABLES SUGARCRM CRON
+  # ofelia.job-exec.sugarcrm_integration_fetchleads.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.sugarcrm_integration_fetchleads.command: >
+  #   {{ mautic_console }}
+  #   mautic:integration:fetchleads --fetch-all --integration=Sugarcrm"
+  # ofelia.job-exec.sugarcrm_integration_fetchleads.user: "www-data"
+  # ENABLES PIPEDRIVE CRON
+  # ofelia.job-exec.pipedrive_integration_fetch.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.pipedrive_integration_fetch.command:
+  #   "{{ mautic_console }} mautic:integration:pipedrive:fetch"
+  # ofelia.job-exec.pipedrive_integration_fetch.user: "www-data"
+  # ofelia.job-exec.pipedrive_integration_push.schedule:
+  #   "15,45 * * * *"
+  # ofelia.job-exec.pipedrive_integration_push.command:
+  #   "{{ mautic_console }} mautic:integration:pipedrive:push"
+  # ofelia.job-exec.pipedrive_integration_push.user: "www-data"
+  # ENABLES ZOHO CRON
+  # ofelia.job-exec.zohocrm_integration_fetchleads.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.zohocrm_integration_fetchleads.command:
+  #   "{{ mautic_console }} mautic:integration:fetchleads --integration=Zoho"
+  # ofelia.job-exec.zohocrm_integration_fetchleads.user: "www-data"
+  # ENABLES DYNAMICS CRON
+  # ofelia.job-exec.dynamicscrm_integration_fetchleads.schedule:
+  #   "10,40 * * * *"
+  # ofelia.job-exec.dynamicscrm_integration_fetchleads.command:
+  #   "{{ mautic_console }} mautic:integration:fetchleads -i Dynamics"
+  # ofelia.job-exec.dynamicscrm_integration_fetchleads.user: "www-data"

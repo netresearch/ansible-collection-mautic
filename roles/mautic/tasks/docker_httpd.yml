@@ -1,0 +1,29 @@
+---
+- name: Mautic | Pull httpd container image
+  community.docker.docker_image:
+    name: "{{ mautic_httpd_image }}"
+    source: pull
+    force_source: "{{ mautic_force_container_pull }}"
+  register: image_output
+
+- name: Mautic | Start httpd container
+  community.docker.docker_container:
+    name: "{{ mautic_httpd_service_name }}"
+    image: "{{ mautic_httpd_image }}"
+    state: started
+    detach: true
+    recreate: "{{ force_service_update }}"
+    network_mode: "default"
+    networks: "{{ mautic_httpd_networks }}"
+    published_ports: "{{ mautic_httpd_ports }}"
+    mounts: "{{ mautic_httpd_mounts }}"
+    labels: "{{ mautic_httpd_labels }}"
+    container_default_behavior: no_defaults
+    command: nginx -g "daemon off;"
+    command_handling: correct
+    restart_policy: unless-stopped
+    comparisons:
+      '*': strict
+  ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ mautic_setup_force_log == false }}"
+  diff: "{{ mautic_setup_force_log }}"

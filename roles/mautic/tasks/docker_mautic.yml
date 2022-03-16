@@ -1,0 +1,40 @@
+---
+- name: Mautic | Pull application container image
+  community.docker.docker_image:
+    name: "{{ mautic_app_image }}"
+    source: pull
+    force_source: "{{ mautic_force_container_pull }}"
+  register: image_output
+
+- name: Mautic | Wait until database container is up and healthy
+  community.docker.docker_container_info:
+    name: "{{ mautic_dbms_service_name }}"
+  register: result
+  until: result.container is search("healthy")
+  retries: 10
+  delay: 10
+  when: not ansible_check_mode | bool
+
+- name: Mautic | Start application container
+  community.docker.docker_container:
+    name: "{{ mautic_app_service_name }}"
+    image: "{{ mautic_app_image }}"
+    state: started
+    detach: true
+    recreate: "{{ force_service_update }}"
+    network_mode: "default"
+    networks: "{{ mautic_app_networks }}"
+    env: "{{ mautic_app_env }}"
+    mounts: "{{ mautic_app_mounts }}"
+    labels: "{{ mautic_app_labels }}"
+    container_default_behavior: no_defaults
+    command: php-fpm
+    command_handling: correct
+    entrypoint: /usr/local/bin/entrypoint_mautic.sh
+    restart_policy: unless-stopped
+    comparisons:
+      '*': strict
+      labels: allow_more_present
+  ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ mautic_setup_force_log == false }}"
+  diff: "{{ mautic_setup_force_log }}"

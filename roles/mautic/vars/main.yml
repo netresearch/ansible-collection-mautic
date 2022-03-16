@@ -1,0 +1,36 @@
+---
+
+mautic_app_volume_name: mautic_app_data
+mautic_app_image: "{{ mautic_app_image_name }}:{{ mautic_app_image_tag }}"
+# must match upstream host name in httpd config (nginx)
+mautic_app_service_name: "mautic"
+mautic_app_networks:
+  - name: "{{ mautic_network_backend }}"
+mautic_app_mounts:
+  - source: "{{ mautic_app_volume_name }}"
+    target: "{{ mautic_app_storage_container }}"
+    type: volume
+
+mautic_httpd_image: "{{ mautic_httpd_image_name }}:{{ mautic_httpd_image_tag }}"
+mautic_httpd_service_name: "mautic_httpd"
+mautic_httpd_networks:
+  - name: "{{ mautic_network_backend }}"
+  - name: "{{ mautic_network_frontend }}"
+mautic_httpd_mounts: "{{ mautic_app_mounts }}"
+
+mautic_dbms_volume_name: mautic_dbms_data
+mautic_dbms_image: "{{ mautic_dbms_image_name }}:{{ mautic_dbms_image_tag }}"
+mautic_dbms_service_name: "mautic_dbms"
+mautic_dbms_networks:
+  - name: "{{ mautic_network_backend }}"
+mautic_dbms_mounts:
+  - source: "{{ mautic_dbms_volume_name }}"
+    target: "{{ mautic_dbms_storage_container }}"
+    type: volume
+
+mautic_cron_image: "{{ mautic_cron_image_name }}:{{ mautic_cron_image_tag }}"
+mautic_cron_service_name: "mautic_cron"
+
+
+mautic_message_no_update_available:
+  "Great! You are running the current version of Mautic."

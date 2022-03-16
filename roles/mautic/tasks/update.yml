@@ -1,0 +1,128 @@
+---
+- name: Mautic | Current version
+  community.docker.docker_container_exec:
+    container: "{{ mautic_app_service_name }}"
+    argv:
+      - bin/console
+      - --version
+      - --no-ansi
+    chdir: "{{ mautic_app_storage_container }}"
+  register: mautic_current_version
+
+- name: Mautic | Current version result
+  debug:
+    var:
+      - mautic_current_version.stdout
+      - mautic_current_version.stderr_lines
+    verbosity: 2
+
+- name: Mautic | Update available
+  community.docker.docker_container_exec:
+    container: "{{ mautic_app_service_name }}"
+    argv:
+      - bin/console
+      - mautic:update:find
+      - --no-ansi
+    chdir: "{{ mautic_app_storage_container }}"
+  register: mautic_update_check
+
+- name: Print stdout
+  debug:
+    var:
+      - mautic_update_check.stdout
+      - mautic_update_check.stderr_lines
+    verbosity: 2
+
+- name: Mautic | Apply update
+  community.docker.docker_container_exec:
+    container: "{{ mautic_app_service_name }}"
+    argv:
+      - bin/console
+      - mautic:update:apply
+      - --force
+      - --no-ansi
+    chdir: "{{ mautic_app_storage_container }}"
+  register: mautic_update_result
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Print stdout
+  debug:
+    var:
+      - mautic_update_result.stdout
+      - mautic_update_result.stderr_lines
+    verbosity: 2
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Mautic | Finish update
+  community.docker.docker_container_exec:
+    container: "{{ mautic_app_service_name }}"
+    argv:
+      - bin/console
+      - mautic:update:apply
+      - --force
+      - --finish
+      - --no-ansi
+    chdir: "{{ mautic_app_storage_container }}"
+  register: mautic_update_result
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Print stdout
+  debug:
+    var:
+      - mautic_update_result.stdout
+      - mautic_update_result.stderr_lines
+    verbosity: 2
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Mautic | Updated version
+  community.docker.docker_container_exec:
+    container: "{{ mautic_app_service_name }}"
+    argv:
+      - bin/console
+      - mautic:update:apply
+      - --version
+      - --no-ansi
+    chdir: "{{ mautic_app_storage_container }}"
+  register: mautic_updated_version
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Print stdout
+  debug:
+    var:
+      - mautic_updated_version.stdout
+      - mautic_updated_version.stderr_lines
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available
+
+- name: Mautic | No update needed
+  debug:
+    msg:
+      - "Your version: {{ mautic_current_version.stdout }}"
+      - "Your are already on the latest version - no update available."
+    verbosity: 0
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout == mautic_message_no_update_available
+
+- name: Mautic | Update result
+  debug:
+    msg:
+      - "Your version: {{ mautic_current_version.stdout }}"
+      - "Available version: {{ mautic_update_check.stdout }}"
+      - "Your new version: {{ mautic_updated_version.stdout }}"
+      - "Check https://{{ mautic_site_url }}/s/update/schema if required"
+    verbosity: 0
+  when: >
+    mautic_update_check.stdout is defined and
+    mautic_update_check.stdout != mautic_message_no_update_available

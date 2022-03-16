@@ -5,7 +5,7 @@ version: 1.0.0
 readme: README.md
 authors:
   - Björn Marten <bjoern.marten@netresearch.de>
-  - Sebastian Mendel <sebastian.mendel@netresearch.de> (https://github.com/CybotTM)
+  - Sebastian Mendel <sebastian.mendel@netresearch.de>
 description: This Ansible collection provisions a Mautic stack via Docker
 license:
   - AGPL-3.0-or-later

@@ -3,8 +3,7 @@
   connection: local
   remote_user: root
   vars:
-    mautic_httpd_ports:
-      - "9080:80"
+    mautic_httpd_port: "9080"
     mautic_skip_docker: true
     mautic_setup_force_log: true
     mautic_instance_name: tyrell_mautic

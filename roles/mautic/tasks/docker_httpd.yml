@@ -18,7 +18,7 @@
         aliases:
           - mautic_httpd
       - name: "{{ mautic_network_frontend }}"
-    published_ports: "{{ mautic_httpd_ports }}"
+    published_ports: "{{ mautic_httpd_port }}:80"
     mounts: "{{ mautic_httpd_mounts }}"
     labels: "{{ mautic_httpd_labels }}"
     container_default_behavior: no_defaults

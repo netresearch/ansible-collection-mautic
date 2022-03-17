@@ -20,7 +20,7 @@ You can also include the collection in a `requirements.yml` file and install it 
 ---
 collections:
   - name: netresearch.mautic
-    version: 1.0.0
+    version: 1.1.0
 ```
 
 ## Using this collection

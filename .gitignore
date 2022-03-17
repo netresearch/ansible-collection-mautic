@@ -2,3 +2,4 @@
 .kitchen/
 .kitchen.local.yml
 .idea/
+netresearch-mautic-*.tar.gz

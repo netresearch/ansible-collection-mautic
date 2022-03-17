@@ -30,7 +30,7 @@ mautic_network_frontend: "traefik_dev_network"
 
 # Mautic service container
 mautic_app_image_name: "ghcr.io/netresearch/mautic"
-mautic_app_image_tag: "4.1-php7.4"
+mautic_app_image_tag: "4.2-php7.4"
 mautic_app_storage_container: "/var/www/html"
 mautic_app_env:
   MAUTIC_DB_HOST: "{{ mautic_dbms_service_name }}"

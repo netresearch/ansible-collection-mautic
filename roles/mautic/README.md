@@ -25,7 +25,7 @@ Most important configuration options are as follows:
 | `mautic_db_user_secret`           | `my_secret`                   | Database user password                          |
 | `mautic_network_frontend`         | `traefik_dev_network`         | Frontend network attached to httpd service      |
 | `mautic_app_image_name`           | `ghcr.io/netresearch/mautic`  | Mautic container image name                     |
-| `mautic_app_image_tag`            | `4.1-php7.4`                  | Mautic container image tag                      |
+| `mautic_app_image_tag`            | `4.2-php7.4`                  | Mautic container image tag                      |
 | `mautic_setup_force_log`          | `false`                       | Enables output of log even for sensitive data   |
 | `mautic_trusted_proxies`          | `["127.0.0.1"]`               | Trusted proxies to detect client IP address     |
 | `mautic_app_env`                  | see defaults/main.yml         | Passed ENV variables, f.e. Mautic configuration |

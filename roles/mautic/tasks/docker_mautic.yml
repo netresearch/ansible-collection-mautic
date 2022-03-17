@@ -21,7 +21,6 @@
     image: "{{ mautic_app_image }}"
     state: started
     detach: true
-    recreate: "{{ force_service_update }}"
     network_mode: "default"
     networks: "{{ mautic_app_networks }}"
     env: "{{ mautic_app_env }}"

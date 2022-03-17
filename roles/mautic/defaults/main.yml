@@ -1,6 +1,5 @@
 ---
 # General variables
-force_service_update: false
 
 # Set this to true to enable logging even of possible sensitive information
 mautic_setup_force_log: false

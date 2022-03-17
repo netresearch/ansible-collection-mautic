@@ -20,7 +20,6 @@ Most important configuration options are as follows:
 
 | Name                              | Default Value                 | Description                                     |
 |-----------------------------------|-------------------------------|-------------------------------------------------|
-| `force_service_update`            | `false`                       | Force the Docker container to be updated        |
 | `mautic_db_root_secret`           | `my_secret`                   | Database root password                          |
 | `mautic_db_user_secret`           | `my_secret`                   | Database user password                          |
 | `mautic_network_frontend`         | `traefik_dev_network`         | Frontend network attached to httpd service      |

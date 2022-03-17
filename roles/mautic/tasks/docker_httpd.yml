@@ -12,7 +12,6 @@
     image: "{{ mautic_httpd_image }}"
     state: started
     detach: true
-    recreate: "{{ force_service_update }}"
     network_mode: "default"
     networks: "{{ mautic_httpd_networks }}"
     published_ports: "{{ mautic_httpd_ports }}"

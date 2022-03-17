@@ -22,7 +22,10 @@
     state: started
     detach: true
     network_mode: "default"
-    networks: "{{ mautic_app_networks }}"
+    networks:
+      - name: "{{ mautic_network_backend }}"
+        aliases:
+          - mautic
     env: "{{ mautic_app_env }}"
     mounts: "{{ mautic_app_mounts }}"
     labels: "{{ mautic_app_labels }}"

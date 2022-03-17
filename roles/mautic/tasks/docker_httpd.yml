@@ -13,7 +13,11 @@
     state: started
     detach: true
     network_mode: "default"
-    networks: "{{ mautic_httpd_networks }}"
+    networks:
+      - name: "{{ mautic_network_backend }}"
+        aliases:
+          - mautic_httpd
+      - name: "{{ mautic_network_frontend }}"
     published_ports: "{{ mautic_httpd_ports }}"
     mounts: "{{ mautic_httpd_mounts }}"
     labels: "{{ mautic_httpd_labels }}"

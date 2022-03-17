@@ -1,6 +1,9 @@
 ---
 # General variables
 
+# The base stack name, change this if you want to deploy multiple instances on the same host.
+mautic_instance_name: mautic
+
 # Set this to true to enable logging even of possible sensitive information
 mautic_setup_force_log: false
 
@@ -11,17 +14,17 @@ mautic_force_container_pull: false
 # Mautic application settings
 mautic_install_source: "docker"
 mautic_trusted_proxies: '["127.0.0.1"]'
-mautic_site_url: "m.netresearch.de"
+mautic_site_url: "{{ mautic_instance_name }}.local"
 # Database settings
 mautic_db_driver: "pdo_mysql"
 mautic_db_table_prefix: ""
-mautic_db_name: "mautic"
-mautic_db_user: "mautic"
+mautic_db_name: "mautic_{{ mautic_instance_name }}"
+mautic_db_user: "mautic_{{ mautic_instance_name }}"
 mautic_db_user_secret: my_secret
 mautic_db_root_secret: my_secret
 
 # Docker networks
-mautic_network_backend: "mautic-net"
+mautic_network_backend: "{{ mautic_instance_name }}-net"
 # ToDo: traefik network should be defined elsewhere
 mautic_network_frontend: "traefik_dev_network"
 

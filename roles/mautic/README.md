@@ -20,6 +20,7 @@ Most important configuration options are as follows:
 
 | Name                              | Default Value                 | Description                                     |
 |-----------------------------------|-------------------------------|-------------------------------------------------|
+| `mautic_instance_name`            | `mautic`                      | Mautic instance stack prefix/identifier         |
 | `mautic_db_root_secret`           | `my_secret`                   | Database root password                          |
 | `mautic_db_user_secret`           | `my_secret`                   | Database user password                          |
 | `mautic_network_frontend`         | `traefik_dev_network`         | Frontend network attached to httpd service      |

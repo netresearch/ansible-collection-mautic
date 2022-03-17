@@ -13,7 +13,10 @@
     state: started
     detach: true
     network_mode: "{{ mautic_network_backend }}"
-    networks: "{{ mautic_dbms_networks }}"
+    networks:
+      - name: "{{ mautic_network_backend }}"
+        aliases:
+          - mautic_dbms
     env: "{{ mautic_dbms_env }}"
     mounts: "{{ mautic_dbms_mounts }}"
     command: >

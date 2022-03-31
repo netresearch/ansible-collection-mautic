@@ -18,8 +18,8 @@ mautic_site_url: "http://{{ mautic_instance_name }}.local:{{ mautic_httpd_port }
 # Database settings
 mautic_db_driver: "pdo_mysql"
 mautic_db_table_prefix: ""
-mautic_db_name: "mautic_{{ mautic_instance_name }}"
-mautic_db_user: "mautic_{{ mautic_instance_name }}"
+mautic_db_name: "{{ mautic_instance_name }}"
+mautic_db_user: "{{ mautic_instance_name }}"
 mautic_db_user_secret: my_secret
 mautic_db_root_secret: my_secret
 

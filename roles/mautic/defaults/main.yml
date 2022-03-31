@@ -64,7 +64,7 @@ mautic_cron_image_name: "mcuadros/ofelia"
 mautic_cron_image_tag: "latest"
 mautic_cron_service_command: "daemon --docker"
 
-mautic_console: "php {{ mautic_app_storage_container }}/bin/console"
+mautic_console: "php {{ mautic_app_storage_container }}/bin/console --no-ansi --no-interaction"
 
 mautic_app_labels:
   ofelia.enabled: "true"

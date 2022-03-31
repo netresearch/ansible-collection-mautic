@@ -107,7 +107,7 @@
       - "Your version: {{ mautic_current_version.stdout }}"
       - "Available version: {{ mautic_update_check.stdout }}"
       - "Your new version: {{ mautic_updated_version.stdout }}"
-      - "Check https://{{ mautic_site_url }}/s/update/schema if required"
+      - "Check {{ mautic_site_url }}s/update/schema if required"
     verbosity: 0
   when: >
     mautic_update_check.stdout is defined and

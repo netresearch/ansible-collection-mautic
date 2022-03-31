@@ -7,6 +7,7 @@
       - --version
       - --no-ansi
     chdir: "{{ mautic_app_storage_container }}"
+    user: www-data
   register: mautic_current_version
 
 - name: Mautic | Current version result
@@ -24,6 +25,7 @@
       - mautic:update:find
       - --no-ansi
     chdir: "{{ mautic_app_storage_container }}"
+    user: www-data
   register: mautic_update_check
 
 - name: Print stdout
@@ -42,6 +44,7 @@
       - --force
       - --no-ansi
     chdir: "{{ mautic_app_storage_container }}"
+    user: www-data
   register: mautic_update_result
   when: >
     mautic_update_check.stdout is defined and
@@ -67,6 +70,7 @@
       - --finish
       - --no-ansi
     chdir: "{{ mautic_app_storage_container }}"
+    user: www-data
   register: mautic_update_result
   when: >
     mautic_update_check.stdout is defined and
@@ -91,6 +95,7 @@
       - --version
       - --no-ansi
     chdir: "{{ mautic_app_storage_container }}"
+    user: www-data
   register: mautic_updated_version
   when: >
     mautic_update_check.stdout is defined and

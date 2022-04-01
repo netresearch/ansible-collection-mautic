@@ -15,6 +15,31 @@
   delay: 10
   when: not ansible_check_mode | bool
 
+- name: Render labels for cron
+  ansible.builtin.set_fact:
+    mautic_app_labels_rendered: "{{
+      mautic_app_labels_rendered
+      | default({})
+      | combine ({
+          mautic_cron_label_prefix + item.name + '.command':
+            item.command,
+          mautic_cron_label_prefix + item.name + '.schedule':
+            item.schedule|default(59|random|string + '/5 * * * * *'),
+          mautic_cron_label_prefix + item.name + '.user':
+            item.user|default(mautic_cron_user_default)
+      })
+    }}"
+  with_items: "{{ mautic_app_cron }}"
+
+- name: Redner other misc. labels
+  ansible.builtin.set_fact:
+    mautic_app_labels_rendered: "{{
+      mautic_app_labels_rendered
+      | default({})
+      | combine ({ item.label : item.value })
+    }}"
+  with_items: "{{ mautic_app_labels }}"
+
 - name: Mautic | Start application container
   community.docker.docker_container:
     name: "{{ mautic_app_service_name }}"
@@ -28,7 +53,7 @@
           - mautic
     env: "{{ mautic_app_env }}"
     mounts: "{{ mautic_app_mounts }}"
-    labels: "{{ mautic_app_labels }}"
+    labels: "{{ mautic_app_labels_rendered }}"
     container_default_behavior: no_defaults
     command: php-fpm
     command_handling: correct

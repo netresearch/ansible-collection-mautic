@@ -22,7 +22,7 @@ mautic_dbms_mounts:
     type: volume
 
 mautic_cron_image: "{{ mautic_cron_image_name }}:{{ mautic_cron_image_tag }}"
-mautic_cron_service_name: "ofelia"
+mautic_cron_service_name: "mautic_chadburn"
 
 
 mautic_message_no_update_available:

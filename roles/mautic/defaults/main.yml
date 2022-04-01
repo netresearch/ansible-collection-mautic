@@ -60,135 +60,135 @@ mautic_dbms_env:
   MARIADB_PASSWORD: "{{ mautic_db_user_secret }}"
 
 # Cron service container
-mautic_cron_image_name: "mcuadros/ofelia"
+mautic_cron_image_name: "ghcr.io/premoweb/chadburn"
 mautic_cron_image_tag: "latest"
 mautic_cron_service_command: "daemon --docker"
 
 mautic_console: "php {{ mautic_app_storage_container }}/bin/console --no-ansi --no-interaction"
 
 mautic_app_labels:
-  ofelia.enabled: "true"
-  ofelia.job-exec.{{ mautic_instance_name }}_segments_update.schedule: "8,23,38,52 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_segments_update.command:
+  chadburn.enabled: "true"
+  chadburn.job-exec.{{ mautic_instance_name }}_segments_update.schedule: "8,23,38,52 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_segments_update.command:
     "{{ mautic_console }} mautic:segments:update"
-  ofelia.job-exec.{{ mautic_instance_name }}_segments_update.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_import.schedule: "*/5 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_import.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_segments_update.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_import.schedule: "*/5 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_import.command:
     "{{ mautic_console }} mautic:import"
-  ofelia.job-exec.{{ mautic_instance_name }}_import.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_update.schedule: "5,20,35,50 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_update.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_import.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_update.schedule: "5,20,35,50 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_update.command:
     "{{ mautic_console }} mautic:campaigns:update"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_update.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_trigger.schedule: "2,17,32,47 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_trigger.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_update.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_trigger.schedule: "2,17,32,47 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_trigger.command:
     "{{ mautic_console }} mautic:campaigns:trigger"
-  ofelia.job-exec.{{ mautic_instance_name }}_campaigns_trigger.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_messages_send.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_messages_send.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_campaigns_trigger.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_messages_send.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_messages_send.command:
     "{{ mautic_console }} mautic:messages:send"
-  ofelia.job-exec.{{ mautic_instance_name }}_messages_send.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_emails_send.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_emails_send.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_messages_send.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_emails_send.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_emails_send.command:
     "{{ mautic_console }} mautic:emails:send"
-  ofelia.job-exec.{{ mautic_instance_name }}_emails_send.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_email_fetch.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_email_fetch.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_emails_send.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_email_fetch.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_email_fetch.command:
     "{{ mautic_console }} mautic:email:fetch"
-  ofelia.job-exec.{{ mautic_instance_name }}_email_fetch.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_social_monitoring.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_social_monitoring.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_email_fetch.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_social_monitoring.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_social_monitoring.command:
     "{{ mautic_console }} mautic:social:monitoring"
-  ofelia.job-exec.{{ mautic_instance_name }}_social_monitoring.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_webhooks_process.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_webhooks_process.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_social_monitoring.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_webhooks_process.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_webhooks_process.command:
     "{{ mautic_console }} mautic:webhooks:process"
-  ofelia.job-exec.{{ mautic_instance_name }}_webhooks_process.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_broadcasts_send.schedule: "0,15,30,45 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_broadcasts_send.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_webhooks_process.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_broadcasts_send.schedule: "0,15,30,45 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_broadcasts_send.command:
     "{{ mautic_console }} mautic:broadcasts:send"
-  ofelia.job-exec.{{ mautic_instance_name }}_broadcasts_send.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.schedule: "* 1 * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_broadcasts_send.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.schedule: "* 1 * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.command:
     "{{ mautic_console }} mautic:maintenance:cleanup --days-old=365"
-  ofelia.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_iplookup_download.schedule: "0 4 15 * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_iplookup_download.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_maintenance_cleanup.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_iplookup_download.schedule: "0 4 15 * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_iplookup_download.command:
     "{{ mautic_console }} mautic:iplookup:download"
-  ofelia.job-exec.{{ mautic_instance_name }}_iplookup_download.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_reports_scheduler.schedule: "*/5 * * * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_reports_scheduler.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_iplookup_download.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_reports_scheduler.schedule: "*/5 * * * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_reports_scheduler.command:
     "{{ mautic_console }} mautic:reports:scheduler"
-  ofelia.job-exec.{{ mautic_instance_name }}_reports_scheduler.user: "www-data"
-  ofelia.job-exec.{{ mautic_instance_name }}_unusedip_delete.schedule: "0 5 10 * *"
-  ofelia.job-exec.{{ mautic_instance_name }}_unusedip_delete.command:
+  chadburn.job-exec.{{ mautic_instance_name }}_reports_scheduler.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_unusedip_delete.schedule: "0 5 10 * *"
+  chadburn.job-exec.{{ mautic_instance_name }}_unusedip_delete.command:
     "{{ mautic_console }} mautic:unusedip:delete"
-  ofelia.job-exec.{{ mautic_instance_name }}_unusedip_delete.user: "www-data"
+  chadburn.job-exec.{{ mautic_instance_name }}_unusedip_delete.user: "www-data"
   # ENABLES HUBSPOT CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.command: >
   #   {{ mautic_console }}
   #   mautic:integration:fetchleads --integration=Hubspot
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.user: "www-data"
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_fetchleads.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.schedule:
   #   "15,45 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.command: >
   #   {{ mautic_console }}
   #   mautic:integration:pushactivity --integration=Hubspot"
-  # ofelia.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_hubspot_integration_pushactivity.user: "www-data"
   # ENABLES SALESFORCE CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.command: >
   #   {{ mautic_console }}
   #   mautic:integration:fetchleads --integration=Salesforce"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.user: "www-data"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_fetchleads.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.schedule:
   #   "12,42 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.command: >
   #   {{ mautic_console }}
   #   mautic:integration:pushactivity --integration=Salesforce"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.user: "www-data"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushactivity.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.schedule:
   #   "14,44 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.command: >
   #   {{ mautic_console }}
   #   mautic:integration:pushleadactivity --integration=Salesforce"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.user: "www-data"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_pushleadactivity.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.schedule:
   #   "16,46 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.command: >
   #   {{ mautic_console }}
   #   mautic:integration:synccontacts --integration=Salesforce"
-  # ofelia.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_salesforce_integration_synccontacts.user: "www-data"
   # ENABLES SUGARCRM CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.command: >
+  # chadburn.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.command: >
   #   {{ mautic_console }}
   #   mautic:integration:fetchleads --fetch-all --integration=Sugarcrm"
-  # ofelia.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_sugarcrm_integration_fetchleads.user: "www-data"
   # ENABLES PIPEDRIVE CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.command:
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.command:
   #   "{{ mautic_console }} mautic:integration:pipedrive:fetch"
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.user: "www-data"
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_fetch.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.schedule:
   #   "15,45 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.command:
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.command:
   #   "{{ mautic_console }} mautic:integration:pipedrive:push"
-  # ofelia.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_pipedrive_integration_push.user: "www-data"
   # ENABLES ZOHO CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.command:
+  # chadburn.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.command:
   #   "{{ mautic_console }} mautic:integration:fetchleads --integration=Zoho"
-  # ofelia.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_zohocrm_integration_fetchleads.user: "www-data"
   # ENABLES DYNAMICS CRON
-  # ofelia.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.schedule:
+  # chadburn.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.schedule:
   #   "10,40 * * * *"
-  # ofelia.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.command:
+  # chadburn.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.command:
   #   "{{ mautic_console }} mautic:integration:fetchleads -i Dynamics"
-  # ofelia.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.user: "www-data"
+  # chadburn.job-exec.{{ mautic_instance_name }}_dynamicscrm_integration_fetchleads.user: "www-data"

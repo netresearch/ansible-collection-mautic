@@ -62,7 +62,7 @@ mautic_dbms_env:
 # Cron service container
 mautic_cron_image_name: "ghcr.io/premoweb/chadburn"
 mautic_cron_image_tag: "latest"
-mautic_cron_service_command: "daemon --docker"
+mautic_cron_service_command: "daemon"
 
 mautic_console: "php {{ mautic_app_storage_container }}/bin/console --no-ansi --no-interaction"
 

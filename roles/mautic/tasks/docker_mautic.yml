@@ -24,7 +24,7 @@
           mautic_cron_label_prefix + item.name + '.command':
             item.command,
           mautic_cron_label_prefix + item.name + '.schedule':
-            item.schedule|default(59|random|string + '/5 * * * * *'),
+            item.schedule|default(6|random|string + '-59/5 * * * * *'),
           mautic_cron_label_prefix + item.name + '.user':
             item.user|default(mautic_cron_user_default)
       })

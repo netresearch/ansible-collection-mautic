@@ -65,7 +65,7 @@ mautic_cron_image_tag: "latest"
 mautic_cron_service_command: "daemon"
 
 mautic_cron_command: "php {{ mautic_app_storage_container }}/bin/console --no-ansi --no-interaction"
-mautic_cron_label_prefix: "ofelia.job-exec.{{ mautic_instance_name }}_"
+mautic_cron_label_prefix: "chadburn.job-exec.{{ mautic_instance_name }}_"
 mautic_cron_schedule_default: "@every 5m"
 mautic_cron_user_default: "www-data"
 

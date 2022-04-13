@@ -19,6 +19,9 @@
   ansible.builtin.set_fact:
     mautic_app_labels_rendered: {}
 
+# do not use 6-piece schedules (5-59/5 * * * * *), because of:
+# https://github.com/PremoWeb/chadburn/issues/13
+# use only 5-piece schedules (5-59/5 * * * *)
 - name: Render labels for cron
   ansible.builtin.set_fact:
     mautic_app_labels_rendered: "{{
@@ -28,7 +31,7 @@
           mautic_cron_label_prefix + item.name + '.command':
             item.command,
           mautic_cron_label_prefix + item.name + '.schedule':
-            item.schedule|default(6|random|string + '-59/5 * * * * *'),
+            item.schedule|default(6|random|string + '-59/5 * * * *'),
           mautic_cron_label_prefix + item.name + '.user':
             item.user|default(mautic_cron_user_default)
       })

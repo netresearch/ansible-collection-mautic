@@ -15,6 +15,10 @@
   delay: 10
   when: not ansible_check_mode | bool
 
+- name: Clear labels
+  ansible.builtin.set_fact:
+    mautic_app_labels_rendered: {}
+
 - name: Render labels for cron
   ansible.builtin.set_fact:
     mautic_app_labels_rendered: "{{

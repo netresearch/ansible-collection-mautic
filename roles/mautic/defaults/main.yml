@@ -144,3 +144,5 @@ mautic_app_cron:
 mautic_app_labels:
   - label: "chadburn.enabled"
     value: "true"
+  - label: "chadburn.no-overlay"
+    value: "true"

@@ -58,6 +58,7 @@ mautic_dbms_env:
   MARIADB_USER: "{{ mautic_db_user }}"
   MARIADB_ROOT_PASSWORD: "{{ mautic_db_root_secret }}"
   MARIADB_PASSWORD: "{{ mautic_db_user_secret }}"
+  MARIADB_AUTO_UPGRADE: "true"
 
 # Cron service container
 mautic_cron_image_name: "ghcr.io/premoweb/chadburn"

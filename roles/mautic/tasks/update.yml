@@ -2,7 +2,7 @@
 - name: Mautic | Current version
   community.docker.docker_container_exec:
     container: "{{ mautic_app_service_name }}"
-    command: sh -c 'MAUTIC_LOCALE=en --version --no-ansi'
+    command: sh -c 'MAUTIC_LOCALE=en bin/console --version --no-ansi'
     chdir: "{{ mautic_app_storage_container }}"
     user: www-data
   register: mautic_current_version
